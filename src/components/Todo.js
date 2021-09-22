@@ -33,22 +33,46 @@ export default class Todo extends Component {
     render() {
        
         return (
-            <div>
-               <div className = 'input-container'>
-                   <input type = "text" value = {this.state.currentTask} onChange = {this.handleChange}></input>
-                   <button onClick = {this.onSubmit}>add</button>
-               </div>
-                <div className = 'tasks-container'>
-                        <ul>
-                            {this.state.tasks.map(task => (
-                               <li key = {task.id}>
-                                    <h1>{task.txt}</h1>
-                                    <button onClick  = {()=>this.onDelete(task.id)}>delete</button>
-                                </li> 
-                            ))}
-                        </ul>
-                </div>
+                <>
+                <InputComponent value = {this.state.currentTask} onChange = {this.handleChange} onSubmit = {this.onSubmit}/>
+                <TaskList tasks = {this.state.tasks} onDelete = {this.onDelete}/>
+                </>
+            
+        )
+    }
+}
+class InputComponent extends Component {
+    constructor(props)
+    {
+        super(props);
+    }
+    render() {
+        return (
+            <div className = "InputContainer">
+        <input type = "text" value = {this.props.value} onChange = {this.props.onChange}></input>
+        <button onSubmit = {this.props.onSubmit}>add</button>
             </div>
         )
     }
 }
+class TaskList extends Component {
+    constructor(props)
+    {
+    super(props);
+    }
+    render() {
+        return (
+<div className = 'tasks-container'>
+                        <ul>
+                            {this.props.tasks.map(task => (
+                               <li key = {task.id}>
+                                    <h1>{task.txt}</h1>
+                                    <button onClick  = {()=>this.props.onDelete(task.id)}>delete</button>
+                                </li> 
+                            ))}
+                        </ul>
+                </div>       
+                 )
+    }
+}
+
